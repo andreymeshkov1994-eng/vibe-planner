@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; min-height: 15.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="ru"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Мое Telegram-приложение&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Подключаем библиотеку Telegram Web App --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://telegram.org/js/telegram-web-app.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Подключаем Tailwind CSS для красивого дизайна --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>* {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-slate-900 text-white flex items-center justify-center min-h-screen p-4"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Контейнер для всего приложения --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="w-full max-w-lg mx-auto bg-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 flex flex-col gap-6"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Заголовок приложения --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 id="app-title" class="text-3xl font-bold text-center text-teal-300"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Добро пожаловать!</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Основной контент, который будет меняться --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="app-content" class="w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Здесь будет загружаться список или форма --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-center text-slate-400"&gt;Загрузка...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Глобальные переменные для хранения состояния</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentView = 'list'; // 'list' или 'create'</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let events = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 1. Управление Telegram Web App</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function setupTelegramWebApp() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!window.Telegram || !window.Telegram.WebApp) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.body.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="text-center p-8 bg-red-800 rounded-xl shadow-2xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-xl"&gt;Это приложение предназначено для запуска в Telegram.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm mt-2 text-slate-300"&gt;Пожалуйста, откройте его в браузере Telegram.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const WebApp = window.Telegram.WebApp;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>WebApp.ready();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Обработчики кнопок</p>
+<p class="p1"><span class="Apple-converted-space">            </span>WebApp.onEvent('mainButtonClicked', handleMainButton);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>WebApp.onEvent('backButtonClicked', handleBackButton);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>WebApp.onEvent('themeChanged', render); // Перерисовываем при смене темы</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Управление видимостью кнопок</p>
+<p class="p1"><span class="Apple-converted-space">            </span>function handleMainButton() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentView === 'list') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setView('create');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (currentView === 'create') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const title = document.getElementById('title').value;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const date = document.getElementById('date').value;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const time = document.getElementById('time').value;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const description = document.getElementById('description').value;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (title &amp;&amp; date &amp;&amp; time) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const newEvent = { title, date, time, description, id: Date.now() };</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>events = [newEvent, ...events];</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>localStorage.setItem('telegram-events', JSON.stringify(events));</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>WebApp.sendData(JSON.stringify(newEvent));</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>setView('list');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>WebApp.showAlert('Пожалуйста, заполните все обязательные поля.');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function handleBackButton() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentView === 'create') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setView('list');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 2. Функции для управления состоянием и отображением</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function setView(viewName) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentView = viewName;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const WebApp = window.Telegram.WebApp;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (viewName === 'list') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>WebApp.MainButton.setText('➕ Создать встречу').show();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>WebApp.BackButton.hide();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (viewName === 'create') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>WebApp.MainButton.setText('✅ Сохранить').show();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>WebApp.BackButton.show();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function render() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const content = document.getElementById('app-content');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const titleElement = document.getElementById('app-title');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentView === 'list') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>titleElement.textContent = 'Мои встречи';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>content.innerHTML = renderEventList();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (currentView === 'create') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>titleElement.textContent = 'Новая встреча';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>content.innerHTML = renderCreateForm();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderEventList() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (events.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return '&lt;p class="text-center text-slate-400"&gt;У тебя пока нет запланированных встреч.&lt;/p&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;ul class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>${events.map(event =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li class="bg-slate-700 p-4 rounded-xl shadow-md flex items-start gap-4 transform hover:scale-105 transition-transform duration-300 ease-in-out"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex-shrink-0 bg-teal-500 text-slate-900 font-bold p-2 rounded-lg text-center shadow-md"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="text-lg"&gt;${new Date(event.date).getDate()}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="text-xs uppercase"&gt;${getDayOfWeek(event.date)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex-grow"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-center mb-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h3 class="text-lg font-bold text-teal-200"&gt;${event.title}&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button onclick="deleteEvent(${event.id})" class="text-red-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-900"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z" clip-rule="evenodd" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-slate-300"&gt;${event.description || 'Без описания'}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="text-xs text-slate-400 mt-2 flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span&gt;&lt;span class="text-teal-400"&gt;📅&lt;/span&gt; ${event.date}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span&gt;&lt;span class="text-teal-400"&gt;⏰&lt;/span&gt; ${event.time}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderCreateForm() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;form onsubmit="event.preventDefault()" class="space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="title" class="block text-sm font-medium text-slate-400"&gt;Название&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="title" name="title"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>class="mt-1 block w-full bg-slate-700 text-slate-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>required /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="grid grid-cols-2 gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label for="date" class="block text-sm font-medium text-slate-400"&gt;Дата&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="date" id="date" name="date"</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>class="mt-1 block w-full bg-slate-700 text-slate-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500"</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>required /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label for="time" class="block text-sm font-medium text-slate-400"&gt;Время&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="time" id="time" name="time"</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>class="mt-1 block w-full bg-slate-700 text-slate-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500"</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>required /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="description" class="block text-sm font-medium text-slate-400"&gt;Описание (необязательно)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;textarea id="description" name="description"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>class="mt-1 block w-full bg-slate-700 text-slate-100 rounded-lg p-3 h-28 focus:outline-none focus:ring-2 focus:ring-teal-500"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Вспомогательные функции</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function getDayOfWeek(dateString) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const date = new Date(dateString);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return days[date.getDay()];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function deleteEvent(id) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>window.Telegram.WebApp.showConfirm('Вы уверены, что хотите удалить эту встречу?', (isConfirmed) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (isConfirmed) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>events = events.filter(event =&gt; event.id !== id);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>localStorage.setItem('telegram-events', JSON.stringify(events));</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function loadEvents() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>events = JSON.parse(localStorage.getItem('telegram-events')) || [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Не удалось загрузить события из localStorage", e);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Запуск приложения</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.onload = function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setupTelegramWebApp();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>loadEvents();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>render();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
