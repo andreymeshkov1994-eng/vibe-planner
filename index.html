@@ -1,0 +1,30 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Vibe Planner — прототип</title>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <link rel="stylesheet" href="./css/styles.css"/>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"/>
+</head>
+<body>
+  <header class="header" id="header"></header>
+  <div class="container">
+    <div class="nav" id="nav">
+      <div class="tab active" data-view="afisha">Афиша</div>
+      <div class="tab" data-view="tickets">Билеты</div>
+      <div class="tab" data-view="my">Мои встречи</div>
+      <div class="tab" data-view="reviews">Отзывы</div>
+      <div class="tab" data-view="profile">Профиль</div>
+      <div class="tab" data-view="admin">Админка</div>
+    </div>
+    <main id="main"></main>
+  </div>
+  <footer>Vibe Planner • демо‑прототип мини‑приложения Telegram • © The Vibe Events</footer>
+  <div id="toast" class="toast"></div>
+  <script src="./bundle.js"></script>
+</body>
+</html>
